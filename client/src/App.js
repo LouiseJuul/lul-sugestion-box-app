@@ -1,4 +1,8 @@
 import React, {useEffect, useState} from 'react';
+import Suggestions from "./Suggestions";
+import Suggestion from "./Suggestion";
+import { Router } from "@reach/router";
+
 const API_URL = process.env.REACT_APP_API;
 
 function App() {
@@ -6,7 +10,7 @@ function App() {
   
   useEffect(() => {
     async function getData() {
-      const url = `${API_URL}/kittens`;
+      const url = `${API_URL}/suggestions`;
       const response = await fetch(url);
       const data = await response.json();
       setData(data);
@@ -16,11 +20,16 @@ function App() {
 
   return (
     <>
-      <h1>Kitten App!</h1>
-      <p>Data from server:</p> 
-      {data.map(kitten => {
-        return <p key={kitten._id}>{kitten.name} ({kitten._id})</p>;
-      })}
+
+      <h1>Suggestion App!</h1>
+      <Router>
+        <Suggestions path="/" suggestions={data}></Suggestions>
+        <Suggestion path="/:id" 
+          getSuggestion={id => data.find(s => s._id === id)}
+ ></Suggestion>
+
+ </Router>
+
     </>
   );
 }
