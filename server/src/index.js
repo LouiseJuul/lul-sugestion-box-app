@@ -1,4 +1,4 @@
-const appName = "Server API"; 
+const appName = "Lul suggestion box API"; 
 const port = process.env.PORT || 8080;
 const createServer = require("./server");
 createServer().then(server => server.listen(port, 

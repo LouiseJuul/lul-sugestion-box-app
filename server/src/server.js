@@ -10,7 +10,7 @@ const mongoose = require('mongoose');
 
 /**** Configuration ****/
 const app = express();
-const MONGO_URL = process.env.MONGO_URL || 'mongodb://localhost/kittens'; 
+const MONGO_URL = process.env.MONGO_URL || 'mongodb://localhost/lulsuggestionDB'; 
 
 async function createServer() {
   // Connect db
