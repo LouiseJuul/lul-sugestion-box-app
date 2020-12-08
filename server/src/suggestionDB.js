@@ -5,7 +5,7 @@ module.exports = (mongoose) => {
     signatures: [{username:String, date:Date}]
   });
 
-  const suggestionModel = mongoose.model('suggestions', suggestionSchema);
+  const suggestionModel = mongoose.model("suggestions", suggestionSchema);
 
   async function getSuggestions() {
     try {
@@ -18,7 +18,7 @@ module.exports = (mongoose) => {
 
   async function getSuggestion(id) {
     try {
-      return await suggestionnModel.findById(id);
+      return await suggestionModel.findById(id);
     } catch (error) {
       console.error("getSuggestion:", error.message);
       return {};
@@ -26,11 +26,27 @@ module.exports = (mongoose) => {
   }
 
   async function createSuggestion(title, desc) {
-    const suggestion = new suggestionModel({title:title, description: desc});
+    const suggestion = new suggestionModel({
+      title:title, 
+      description: desc
+    });
     return suggestion.save();
   }
 
-  async function bootstrap(count = 10) {
+
+  async function createSignature(id, username) {
+    const date = Date.now();
+    const newSignature = {username: username, date: date};
+    const suggestion = await this.getSuggestion(id);
+
+    // Add the signature to the suggestion
+    console.log(suggestion);
+    suggestion.signatures.push(newSignature);
+
+    return suggestion.save();
+  }
+
+  async function bootstrap() {
     let l = (await getSuggestions()).length;
     console.log("Suggestion collection size:", l);
 
@@ -47,6 +63,7 @@ module.exports = (mongoose) => {
     getSuggestion,
     getSuggestions,
     createSuggestion,
+    createSignature,
     bootstrap
   }
 }
